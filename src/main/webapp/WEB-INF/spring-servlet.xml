@@ -12,9 +12,9 @@
     <bean id="ItemDAO" class="com.lesson2.ItemDAOWithSpring.dao.ItemDAO"></bean>
     <bean id="ItemService" class="com.lesson2.ItemDAOWithSpring.service.ItemService"></bean>
 
-    <bean id="Route" class="com.lesson2.ServiceRouteStep.Route"></bean>
-    <bean id="Service" class="com.lesson2.ServiceRouteStep.Service"></bean>
-    <bean id="Step" class="com.lesson2.ServiceRouteStep.Step"></bean>
+    <bean id="Route" class="com.lesson2.ServiceRouteStep.beans.Route"></bean>
+    <bean id="Service" class="com.lesson2.ServiceRouteStep.beans.Service"></bean>
+    <bean id="Step" class="com.lesson2.ServiceRouteStep.beans.Step"></bean>
 
 
 

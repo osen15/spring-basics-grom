@@ -1,5 +1,6 @@
-package com.lesson2.ServiceRouteStep;
+package com.lesson2.ServiceRouteStep.beans;
 
+import com.lesson2.ServiceRouteStep.beans.Service;
 import org.hibernate.mapping.Map;
 
 
