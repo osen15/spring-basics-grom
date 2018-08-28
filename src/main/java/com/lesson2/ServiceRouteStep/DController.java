@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 @Controller
 public class DController {
     @Autowired
@@ -21,21 +22,22 @@ public class DController {
     @ResponseBody
     String callByBean() {
 
-        step.getId();
-        step.getParamsServiceFrom();
-        step.getParamsServiceTo();
-        step.getServiceFrom();
-        step.getServiceTo();
 
+//        step.getId();
+//        step.getParamsServiceFrom();
+//        step.getParamsServiceTo();
+//        step.getServiceFrom();
+//        step.getServiceTo();
 
-        route.getId();
-        route.getSteps();
+//
+//        route.getId();
+//        route.getSteps();
+//
+//        service.getId();
+//        service.getName();
+//        service.getParamToCall();
 
-        service.getId();
-        service.getName();
-        service.getParamToCall();
-
-        return "getters for all beans are called";
+       return step.toString();
 
 
     }
