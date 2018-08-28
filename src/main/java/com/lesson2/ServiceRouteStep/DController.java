@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Scanner;
+
 @Controller
 public class DController {
     @Autowired
@@ -23,21 +25,16 @@ public class DController {
     String callByBean() {
 
 
-//        step.getId();
-//        step.getParamsServiceFrom();
-//        step.getParamsServiceTo();
-//        step.getServiceFrom();
-//        step.getServiceTo();
-
-//
-//        route.getId();
-//        route.getSteps();
-//
-//        service.getId();
-//        service.getName();
-//        service.getParamToCall();
-
-       return step.toString();
+        return step.getId().toString() + "   " +
+                step.getParamsServiceFrom() + "   " +
+                step.getParamsServiceTo() + "   " +
+                step.getServiceFrom() + "   " +
+                step.getServiceTo() + "   " +
+                route.getId() + "   " +
+                route.getSteps() + "   " +
+                service.getId() + "   " +
+                service.getName() + "   " +
+                service.getParamToCall();
 
 
     }
