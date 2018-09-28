@@ -40,6 +40,15 @@
 
 
     </bean>
+    <bean id="File" class="com.lesson3.models.File"/>
+    <bean id="Storage" class="com.lesson3.models.Storage"/>
+    <bean id="GeneralDAO" class="com.lesson3.DAO.GeneralDAO"/>
+    <bean id="StorageDAO" class="com.lesson3.DAO.StorageDAO"/>
+    <bean id="FileDAO" class="com.lesson3.DAO.FileDAO"/>
+    <bean id="StorageService" class="com.lesson3.service.StorageService"/>
+    <bean id="FileService" class="com.lesson3.service.FileService"/>
+
+
 
 
 </beans>
