@@ -69,11 +69,12 @@ public class FileController {
 
     @RequestMapping(method = RequestMethod.PUT, value = "/transferFile")
     @ResponseBody
-    String doTransferFile(HttpServletRequest req, @RequestParam("storageId") String storageId) {
+    String doTransferFile(@RequestParam("fileId") String fileId,
+                          @RequestParam("storageId") String storageId) {
         try {
-            File file = jsonToEntity(req);
-            fileService.transferFile(file, Long.parseLong(storageId));
-            return ("File with id: " + file.getId() + " is transferred");
+
+            fileService.transferFile(Long.parseLong(fileId), Long.parseLong(storageId));
+            return ("File with id: " + fileId + " is transferred");
         } catch (Exception e) {
             e.printStackTrace();
             return ("Error transferring " + e.getMessage());
@@ -81,7 +82,7 @@ public class FileController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/transferFile")
+    @RequestMapping(method = RequestMethod.PUT, value = "/transferAll")
     @ResponseBody
     String doTransferAll(@RequestParam("storageIdFrom") String idFrom,
                          @RequestParam("storageIdTo") String idTo) {

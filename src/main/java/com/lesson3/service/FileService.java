@@ -12,16 +12,15 @@ import java.util.ArrayList;
 
 @Service
 public class FileService {
-
     @Autowired
-    Storage storage;
+    private File file;
     @Autowired
-    FileDAO fileDAO;
+    private FileDAO fileDAO;
     @Autowired
-    StorageDAO storageDAO;
+    private StorageDAO storageDAO;
 
     public void save(File file, long storageId) throws Exception {
-        checkFormat(file);
+        checkFormat(file.getFormat());
         if (freeSpace(storageId) < file.getSize())
             throw new Exception("Not enouth space in a storage");
         file.setStorage(storageDAO.findStorageById(storageId));
@@ -29,7 +28,7 @@ public class FileService {
     }
 
     public File findById(long id) {
-       return fileDAO.findFileById(id);
+        return fileDAO.findFileById(id);
     }
 
     public void update(File file) {
@@ -40,28 +39,28 @@ public class FileService {
         fileDAO.deleteFile(id);
     }
 
-    public void transferFile(File file, long storageId) throws Exception {
-        checkFormat(file);
-        if (freeSpace(storageId) >= file.getSize()) {
-            file.setStorage(storageDAO.findStorageById(storageId));
-            update(file);
-        }
+    public void transferFile(long fileId, long storageId) throws Exception {
+        file = findById(fileId);
+        checkFormat(file.getFormat());
+        if (freeSpace(storageId) <= file.getSize())
+            throw new Exception("Not enouth space in a storageId: " + storageId);
+        file.setStorage(storageDAO.findStorageById(storageId));
+        update(file);
     }
 
     public void transferAll(long storageIdFrom, long storageIdTo) throws Exception {
         ArrayList<File> filesFrom = fileDAO.getAll(storageDAO.findStorageById(storageIdFrom).getId());
         checkAllFormat(filesFrom);
-        if (freeSpace(storageIdFrom) > sizeAll(filesFrom)) {
-            for (File file : filesFrom) {
-                file.setStorage(storageDAO.findStorageById(storageIdTo));
-                update(file);
-            }
+        if (freeSpace(storageIdFrom) < sizeAll(filesFrom))
+            throw new Exception("Not enouth space in a storageId: " + storageIdTo);
+        for (File file : filesFrom) {
+            file.setStorage(storageDAO.findStorageById(storageIdTo));
+            update(file);
         }
-
     }
 
 
-    private long freeSpace(long storageId) {
+    public long freeSpace(long storageId) {
         long sizeFiles = 0;
         long storageSize = storageDAO.findStorageById(storageId).getStorageSize();
         ArrayList<File> files = fileDAO.getAll(storageId);
@@ -74,10 +73,13 @@ public class FileService {
 
     }
 
-    private void checkFormat(File file) throws Exception {
-        if (!file.getFormat().equals("txt") || !file.getFormat().equals("jpg"))
-            throw new Exception("wrong format");
+    private void checkFormat(String format) throws Exception {
+        if (!format.equals("txt") && !format.equals("jpg"))
+            throw new Exception("wrong format: " + format);
+
+
     }
+
 
     private long sizeAll(ArrayList<File> files) throws NullPointerException {
         long res = 0;
@@ -91,7 +93,7 @@ public class FileService {
 
     private void checkAllFormat(ArrayList<File> files) throws Exception {
         for (File file : files) {
-            checkFormat(file);
+            checkFormat(file.getFormat());
         }
 
 
