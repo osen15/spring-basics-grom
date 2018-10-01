@@ -11,20 +11,20 @@ public class StorageService {
     @Autowired
     StorageDAO storageDAO;
 
-    public Storage findById(Long id) {
-       return storageDAO.findById(id);
+    public Storage findById(long id) {
+        return storageDAO.findStorageById(id);
     }
 
     public void save(Storage storage) {
-        storageDAO.save(storage);
+        storageDAO.saveStorage(storage);
     }
 
-    public void delete(Long id) throws Exception {
-        storageDAO.delete(id);
+    public void delete(Long id) {
+        storageDAO.deleteStorage(id);
     }
 
-    public void update(Storage storage) throws Exception {
-        storageDAO.update(storage);
+    public void update(Storage storage) {
+        storageDAO.updateStorage(storage);
     }
 
 

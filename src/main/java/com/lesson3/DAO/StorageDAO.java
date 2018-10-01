@@ -11,7 +11,7 @@ public class StorageDAO extends GeneralDAO<Storage> {
         save(storage);
     }
 
-    public void deleteStorage(Long id) {
+    public void deleteStorage(long id) {
         delete("Storage", id);
     }
 
@@ -19,7 +19,7 @@ public class StorageDAO extends GeneralDAO<Storage> {
         update(storage);
     }
 
-    public Storage findStorageById(Long id) {
+    public Storage findStorageById(long id) {
         return findById("Storage", id);
     }
 
