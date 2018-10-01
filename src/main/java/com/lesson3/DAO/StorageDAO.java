@@ -1,35 +1,27 @@
 package com.lesson3.DAO;
 
 import com.lesson3.models.Storage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class StorageDAO {
-    @Autowired
-    private GeneralDAO<Storage> generalDAO;
+public class StorageDAO extends GeneralDAO<Storage> {
 
-    public void save(Storage storage) {
-        generalDAO.save(storage);
+
+    public void saveStorage(Storage storage) {
+        save(storage);
     }
 
-    public void delete(Long id) {
-        generalDAO.delete("Storage", id);
+    public void deleteStorage(Long id) {
+        delete("Storage", id);
     }
 
-
-    public void update(Storage storage) {
-        generalDAO.update(storage);
+    public void updateStorage(Storage storage) {
+        update(storage);
     }
 
-    public Storage findById(Long id) {
-       return generalDAO.findById("Storage", id);
+    public Storage findStorageById(Long id) {
+        return findById("Storage", id);
     }
-
-
-
-
-
 
 
 }

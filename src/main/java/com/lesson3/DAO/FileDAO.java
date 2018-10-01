@@ -1,39 +1,52 @@
 package com.lesson3.DAO;
 
 import com.lesson3.models.File;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 
 @Repository
-public class FileDAO {
+public class FileDAO extends GeneralDAO<File> {
+
+    private String GET_ALL_FILES = "from File where STORAGE_ID = :storageId";
 
 
-
-    @Autowired
-    private GeneralDAO<File> generalDAO;
-
-    public void save(File file) {
-        generalDAO.save(file);
+    public void saveFile(File file) {
+        save(file);
     }
 
-    public void delete(long id) {
-        generalDAO.delete("File", id);
+    public void deleteFile(long id) {
+        delete("File", id);
     }
 
 
-    public void update(File file) {
-        generalDAO.update(file);
+    public void updateFile(File file) {
+        update(file);
     }
 
-    public File findById(long id) {
-        return generalDAO.findById("File", id);
+    public File findFileById(long id) {
+        return findById("File", id);
     }
 
-    public ArrayList<File> getAll(long id) {
-        return generalDAO.getAllFilesInStorage("File", id);
-    }
+    public ArrayList<File> getAll(long storageId) {
 
+
+        try (Session session = createSessionFactory().openSession()) {
+
+            Query query = session.createQuery(GET_ALL_FILES);
+            query.setParameter("storageId", storageId);
+            return (ArrayList<File>) query.getResultList();
+
+        } catch (HibernateException e) {
+            System.err.println("find by id is failed");
+            e.printStackTrace();
+        }
+
+
+        return null;
+    }
 
 }
