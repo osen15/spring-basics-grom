@@ -38,12 +38,12 @@ public class GeneralDAO<T> {
             session.update(t);
             tr.commit();
         } catch (HibernateException e) {
-            System.err.println("save is failed");
+            System.err.println("update is failed");
             e.printStackTrace();
             if (tr != null) tr.rollback();
 
         }
-        System.out.println("save is done!");
+        System.out.println("update is done!");
     }
 
 

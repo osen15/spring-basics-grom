@@ -12,8 +12,6 @@ import java.util.Arrays;
 
 
 public class Demo {
-
-
     public static void main(String[] args) {
       //  Storage storage = new Storage();
 
@@ -39,6 +37,9 @@ public class Demo {
 //        fileDAO.save(file);
 
        // storageService.save(storage);
+
+        FileDAO fileDAO = new FileDAO();
+        System.out.println(fileDAO.allFormats(1));
 
            }
 

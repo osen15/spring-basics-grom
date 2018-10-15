@@ -3,11 +3,10 @@ package com.lesson3.service;
 import com.lesson3.DAO.FileDAO;
 import com.lesson3.DAO.StorageDAO;
 import com.lesson3.models.File;
-import com.lesson3.models.Storage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 
 @Service
@@ -20,11 +19,11 @@ public class FileService {
     private StorageDAO storageDAO;
 
     public void save(File file, long storageId) throws Exception {
-        checkFormat(file.getFormat());
-        if (freeSpace(storageId) < file.getSize())
+        validation(file, storageDAO.findStorageById(storageId).getStringFormat().split(","));
+        if (fileDAO.freeSpace(storageId) < file.getSize())
             throw new Exception("Not enouth space in a storage");
         file.setStorage(storageDAO.findStorageById(storageId));
-        fileDAO.save(file);
+        fileDAO.saveFile(file);
     }
 
     public File findById(long id) {
@@ -39,66 +38,47 @@ public class FileService {
         fileDAO.deleteFile(id);
     }
 
-    public void transferFile(long fileId, long storageId) throws Exception {
+    public void transferFile(long fileId, long storageIdTo) throws Exception {
         file = findById(fileId);
-        checkFormat(file.getFormat());
-        if (freeSpace(storageId) <= file.getSize())
-            throw new Exception("Not enouth space in a storageId: " + storageId);
-        file.setStorage(storageDAO.findStorageById(storageId));
-        update(file);
+        validation(file, storageDAO.findStorageById(storageIdTo).getStringFormat().split(","));
+        if (fileDAO.freeSpace(storageIdTo) <= file.getSize())
+            throw new Exception("Not enouth space in a storageId: " + storageIdTo);
+        fileDAO.transferFile(fileId, storageIdTo);
     }
 
     public void transferAll(long storageIdFrom, long storageIdTo) throws Exception {
-        ArrayList<File> filesFrom = fileDAO.getAll(storageDAO.findStorageById(storageIdFrom).getId());
-        checkAllFormat(filesFrom);
-        if (freeSpace(storageIdFrom) < sizeAll(filesFrom))
+
+        checkFormat(storageIdFrom, storageIdTo);
+        if (fileDAO.sizeAll(storageIdFrom) > fileDAO.freeSpace(storageIdTo))
             throw new Exception("Not enouth space in a storageId: " + storageIdTo);
-        for (File file : filesFrom) {
-            file.setStorage(storageDAO.findStorageById(storageIdTo));
-            update(file);
-        }
+        fileDAO.transferAll(storageIdFrom, storageIdTo);
     }
 
-
-    public long freeSpace(long storageId) {
-        long sizeFiles = 0;
-        long storageSize = storageDAO.findStorageById(storageId).getStorageSize();
-        ArrayList<File> files = fileDAO.getAll(storageId);
-        if (files != null) {
-            for (File file : fileDAO.getAll(storageId)) {
-                sizeFiles = sizeFiles + file.getSize();
+    private void checkFormat(long storageIdFrom, long storageIdTo) throws Exception {
+        for (String fileFormatFrom : fileDAO.allFormats(storageIdFrom).split(",")) {
+            for (String storageFormat : storageDAO.findStorageById(storageIdTo).toString().split(",")) {
+                if (!fileFormatFrom.equals(storageFormat))
+                    throw new Exception("wrong format");
             }
-            return storageSize - sizeFiles;
-        } else return storageSize;
-
-    }
-
-    private void checkFormat(String format) throws Exception {
-        if (!format.equals("txt") && !format.equals("jpg"))
-            throw new Exception("wrong format: " + format);
-
-
-    }
-
-
-    private long sizeAll(ArrayList<File> files) throws NullPointerException {
-        long res = 0;
-        for (File file : files) {
-
-            res = res + file.getSize();
-        }
-        return res;
-    }
-
-
-    private void checkAllFormat(ArrayList<File> files) throws Exception {
-        for (File file : files) {
-            checkFormat(file.getFormat());
         }
 
 
     }
 
-
+    private void validation(File file, String[] formatsSupported) throws Exception {
+        if (file.getName().length() < 10)
+            throw new Exception("to large file name");
+        if (!Arrays.asList(formatsSupported).contains(file.getFormat()))
+            throw new Exception("wrong format");
+    }
 }
+
+
+
+
+
+
+
+
+
 

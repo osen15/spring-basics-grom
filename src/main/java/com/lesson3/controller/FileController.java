@@ -89,7 +89,7 @@ public class FileController {
         try {
 
             fileService.transferAll(Long.parseLong(idFrom), Long.parseLong(idTo));
-            return ("Files" + fileDAO.getAll(Long.parseLong(idTo)) + " is transferred");
+            return ("Files is transferred");
 
         } catch (Exception e) {
             e.printStackTrace();
