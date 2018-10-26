@@ -1,7 +1,7 @@
-package com.lesson3.service;
+package com.lesson3.HW.service;
 
-import com.lesson3.DAO.StorageDAO;
-import com.lesson3.models.Storage;
+import com.lesson3.HW.DAO.StorageDAO;
+import com.lesson3.HW.models.Storage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

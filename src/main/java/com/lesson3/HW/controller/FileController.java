@@ -1,9 +1,9 @@
-package com.lesson3.controller;
+package com.lesson3.HW.controller;
 
 import com.google.gson.Gson;
-import com.lesson3.DAO.FileDAO;
-import com.lesson3.models.File;
-import com.lesson3.service.FileService;
+import com.lesson3.HW.DAO.FileDAO;
+import com.lesson3.HW.models.File;
+import com.lesson3.HW.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

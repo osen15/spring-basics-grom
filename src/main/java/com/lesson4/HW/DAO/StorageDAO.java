@@ -1,12 +1,10 @@
-package com.lesson3.DAO;
+package com.lesson4.HW.DAO;
 
-import com.lesson3.models.Storage;
+import com.lesson4.HW.models.Storage;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class StorageDAO extends GeneralDAO<Storage> {
-
-
     public void saveStorage(Storage storage) {
         save(storage);
     }

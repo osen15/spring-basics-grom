@@ -1,6 +1,6 @@
-package com.lesson3.DAO;
+package com.lesson3.HW.DAO;
 
-import com.lesson3.models.File;
+import com.lesson3.HW.models.File;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
