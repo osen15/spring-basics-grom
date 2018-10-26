@@ -4,7 +4,9 @@ package com.lesson2.ItemDAOWithSpring.service;
 import com.lesson2.ItemDAOWithSpring.dao.ItemDAO;
 import com.lesson2.ItemDAOWithSpring.entity.Item;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ItemService {
     @Autowired
     ItemDAO itemDAO;

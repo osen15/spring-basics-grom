@@ -7,7 +7,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ItemDAO {
     private SessionFactory sessionFactory;
 
@@ -31,14 +33,12 @@ public class ItemDAO {
             Query query = session.createQuery("from Item where id =:id");
             query.setParameter("id", id);
             item = (Item) query.getSingleResult();
-
         } catch (HibernateException e) {
             System.out.println("find by id is failed");
             e.printStackTrace();
         }
         return item;
     }
-
 
     public void update(Item item) throws Exception {
         if (findById(item.getId()) == null)
@@ -54,7 +54,6 @@ public class ItemDAO {
             e.printStackTrace();
             if (tr != null)
                 tr.rollback();
-
         }
         System.out.println("Item with id: " + item.getId() + " updated");
     }
@@ -74,11 +73,9 @@ public class ItemDAO {
             e.printStackTrace();
             if (tr != null)
                 tr.rollback();
-
         }
         System.out.println("Item with id: " + item.getId() + " deleted");
     }
-
 
     private SessionFactory createSessionFactory() {
         if (sessionFactory == null)
