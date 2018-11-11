@@ -1,8 +1,10 @@
 package com.lesson3.HW.models;
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 import java.util.Objects;
-
+@Component
 @Entity
 @Table(name = "FILE1")
 public class File {

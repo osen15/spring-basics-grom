@@ -5,9 +5,9 @@ public class Demo {
     public static void main(String[] args) {
         //  Storage storage = new Storage();
 
-        // StorageService storageService = new StorageService();
+        // StorageService5 storageService = new StorageService5();
         // StorageDAO storageDAO = new StorageDAO();
-//        FileDAO fileDAO = new FileDAO();
+//        FileDAO5 fileDAO = new FileDAO5();
 //        Storage storage = new Storage();
 //        storage.setId(2);
 
@@ -28,7 +28,7 @@ public class Demo {
 
         // storageService.save(storage);
 
-//        FileDAO fileDAO = new FileDAO();
+//        FileDAO5 fileDAO = new FileDAO5();
 //        System.out.println(fileDAO.allFormats(1));
 
 
