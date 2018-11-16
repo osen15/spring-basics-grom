@@ -43,9 +43,9 @@
     <!--<bean id="File" class="com.lesson3.HW.models.File"/>-->
     <!--<bean id="Storage" class="com.lesson3.HW.models.Storage"/>-->
     <!--<bean id="StorageDAO" class="com.lesson3.HW.DAO.StorageDAO"/>-->
-    <!--<bean id="FileDAO" class="com.lesson3.HW.DAO.FileDAO"/>-->
-    <!--<bean id="StorageService" class="com.lesson3.HW.service.StorageService"/>-->
-    <!--<bean id="FileService" class="com.lesson3.HW.service.FileService"/>-->
+    <!--<bean id="FileDAO5" class="com.lesson3.HW.DAO.FileDAO5"/>-->
+    <!--<bean id="StorageService5" class="com.lesson3.HW.service.StorageService5"/>-->
+    <!--<bean id="service" class="com.lesson3.HW.service.service"/>-->
 
 
 
