@@ -1,10 +1,13 @@
 package com.lesson6.hw.models;
 
 
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
 
+@Entity
+@Table(name = "PASSENGER")
 public class Passenger {
     private Long id;
     private String lastName;
@@ -13,26 +16,37 @@ public class Passenger {
     private String passCode;
     private Collection<Flight> flights;
 
+    public Passenger() {
+    }
+
+    @Id
+    @Column(name = "ID")
     public Long getId() {
         return id;
     }
 
+    @Column(name = "LAST_NAME")
     public String getLastName() {
         return lastName;
     }
 
+    @Column(name = "NATIONALITY")
     public String getNationality() {
         return nationality;
     }
 
+    @Column(name = "DATE_OF_BIRTH")
     public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
+    @Column(name = "PASS_CODE")
     public String getPassCode() {
         return passCode;
     }
 
+    @Column(name = "FLIGHTS")
+    @OneToMany(targetEntity = Flight.class)
     public Collection<Flight> getFlights() {
         return flights;
     }

@@ -7,16 +7,17 @@ import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 
 @Repository
+@Component
 public class FileDAO extends GeneralDAO<File> {
     @Autowired
     StorageDAO storageDAO;
-
 
     private String FREE_SPACE_IN_STORAGE = "select (s.storageSize -sum(f.size)) from File f" +
             " inner join Storage s on s.id = STORAGE_ID " +

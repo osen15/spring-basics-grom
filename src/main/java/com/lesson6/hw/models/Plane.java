@@ -1,5 +1,7 @@
 package com.lesson6.hw.models;
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,12 +11,17 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "Plane")
+@Component
 public class Plane {
     private Long id;
     private String name;
     private String model;
     private Date yearProduced;
     private Double avgFuelConsumption;
+
+
+    public Plane() {
+    }
 
     @Id
     @Column(name = "ID")

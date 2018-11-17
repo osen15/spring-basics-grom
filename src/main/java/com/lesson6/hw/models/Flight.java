@@ -1,10 +1,18 @@
 package com.lesson6.hw.models;
 
+
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
 
+@Entity
+@Table(name = "FLIGHT")
 public class Flight {
+
+
+    public Flight() {
+    }
 
     private Long id;
     private Plane plane;
@@ -13,26 +21,35 @@ public class Flight {
     private String cityFrom;
     private String cityTo;
 
+    @Id
+    @Column(name = "ID")
     public Long getId() {
         return id;
     }
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "PLANE_ID", unique = true, updatable = false)
     public Plane getPlane() {
         return plane;
     }
 
+    @Column(name = "PASSENGERS")
+    @OneToMany(targetEntity = Passenger.class)
     public Collection<Passenger> getPassengers() {
         return passengers;
     }
 
+    @Column(name = "DATE_FLIGHT")
     public Date getDateFlight() {
         return dateFlight;
     }
 
+    @Column(name = "CITY_FROM")
     public String getCityFrom() {
         return cityFrom;
     }
 
+    @Column(name = "CITY_TO")
     public String getCityTo() {
         return cityTo;
     }

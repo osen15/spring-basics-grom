@@ -13,6 +13,9 @@
         <mapping class="com.lesson3.HW.models.File"></mapping>
         <mapping class="com.lesson3.HW.models.Storage"></mapping>
 
+        <mapping class="com.lesson6.hw.models.Plane"></mapping>
+        <mapping class="com.lesson6.hw.models.Passenger"></mapping>
+        <mapping class="com.lesson6.hw.models.Flight"></mapping>
 
     </session-factory>
 </hibernate-configuration>
