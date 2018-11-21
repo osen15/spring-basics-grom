@@ -1,8 +1,12 @@
 package com.lesson6.hw.appConf;
 
+import com.lesson6.hw.models.Flight;
+import com.lesson6.hw.models.Passenger;
 import org.springframework.context.annotation.Bean;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -16,14 +20,12 @@ import javax.persistence.EntityManagerFactory;
 @Configuration
 @EnableTransactionManagement
 
-
 public class AppConf {
-
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan("lesson6");
+        em.setPackagesToScan(new String[]{"com"});
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
@@ -41,7 +43,7 @@ public class AppConf {
 
         return dataSource;
     }
-
+//
 //    @Bean
 //    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
 //        return new PersistenceExceptionTranslationPostProcessor();
@@ -54,6 +56,18 @@ public class AppConf {
 
         return transactionManager;
     }
+//
+//    @Bean
+//    Flight flight(){
+//        return new Flight();
+//    }
+
+    @Bean
+    Passenger passenger(){
+        return new Passenger();
+    }
+
+
 }
 
 

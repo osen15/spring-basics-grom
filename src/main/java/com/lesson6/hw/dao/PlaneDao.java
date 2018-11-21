@@ -7,61 +7,41 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.xml.crypto.Data;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 @Repository
 @Transactional
-public class PlaneDao {
+public class PlaneDao extends GeneralDAO<Plane> {
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    private Plane plane;
-
-    @Autowired
-    public PlaneDao(Plane plane) {
-        this.plane = plane;
+    public Plane get(Long id) {
+        return super.get(Plane.class, id);
     }
-
-
 
     public void save(Plane plane) {
-        entityManager.persist(plane);
-
+        super.save(plane);
     }
-
-
-    public void delete(Plane plane) {
-        plane = findById(plane.getId());
-        entityManager.remove(plane);
-
-    }
-
 
     public Plane update(Plane plane) {
-        return entityManager.merge(plane);
+        return super.update(plane);
     }
 
-
-    public Plane findById(Long id) throws NullPointerException {
-        plane = entityManager.find(Plane.class, id);
-        if (plane == null)
-            throw new NullPointerException("Plane with id: " + id + "not found");
-        return plane;
-
+    public void delete(Long id) {
+        super.delete(Plane.class, id);
     }
-
 
     public ArrayList<Plane> oldPlanes() {
-        LocalDate date = LocalDate.now().minusYears(20);
+        Date date = java.sql.Date.valueOf(LocalDate.now().minusYears(20));
+
         ArrayList<Plane> planes = (ArrayList<Plane>) entityManager
                 .createQuery("from Plane where yearProduced < :date")
                 .setParameter("date", date)
                 .getResultList();
         return planes;
-
-
     }
-
 }

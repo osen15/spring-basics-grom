@@ -18,7 +18,7 @@
         <!--<constructor-arg name="id" value="123"/>-->
         <!--<constructor-arg name="steps" type="java.util.List" ref="Step"/>-->
     <!--</bean>-->
-    <!--<bean id="Service" class="com.lesson2.ServiceRouteStep.beans.Service">-->
+    <!--<bean id="service" class="com.lesson2.ServiceRouteStep.beans.service">-->
         <!--<constructor-arg name="id" type="java.lang.Long" value="1"/>-->
         <!--<constructor-arg name="name" type="java.lang.String" value="Go"/>-->
         <!--<constructor-arg name="paramToCall" type="java.util.List" value=""/>-->
@@ -27,15 +27,15 @@
     <!--</bean>-->
     <!--<bean id="Step" class="com.lesson2.ServiceRouteStep.beans.Step">-->
         <!--<constructor-arg name="id" type="java.lang.Long" value="1"/>-->
-        <!--<constructor-arg name="serviceFrom" type="com.lesson2.ServiceRouteStep.beans.Service" ref="Service"/>-->
-        <!--<constructor-arg name="serviceTo" type="com.lesson2.ServiceRouteStep.beans.Service" ref="Service"/>-->
+        <!--<constructor-arg name="serviceFrom" type="com.lesson2.ServiceRouteStep.beans.service" ref="service"/>-->
+        <!--<constructor-arg name="serviceTo" type="com.lesson2.ServiceRouteStep.beans.service" ref="service"/>-->
 
         <!--<constructor-arg name="paramsServiceFrom">-->
-            <!--<map key-type="java.lang.Long" value-type="com.lesson2.ServiceRouteStep.beans.Service"/>-->
+            <!--<map key-type="java.lang.Long" value-type="com.lesson2.ServiceRouteStep.beans.service"/>-->
         <!--</constructor-arg>-->
 
         <!--<constructor-arg name="paramsServiceTo">-->
-            <!--<map key-type="java.lang.Long" value-type="com.lesson2.ServiceRouteStep.beans.Service"/>-->
+            <!--<map key-type="java.lang.Long" value-type="com.lesson2.ServiceRouteStep.beans.service"/>-->
         <!--</constructor-arg>-->
 
 

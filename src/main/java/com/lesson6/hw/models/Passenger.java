@@ -1,11 +1,14 @@
 package com.lesson6.hw.models;
 
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
+@Component
 @Entity
 @Table(name = "PASSENGER")
 public class Passenger {
@@ -14,10 +17,8 @@ public class Passenger {
     private String nationality;
     private Date dateOfBirth;
     private String passCode;
-    private Collection<Flight> flights;
+    private List flights;
 
-    public Passenger() {
-    }
 
     @Id
     @Column(name = "ID")
@@ -45,9 +46,9 @@ public class Passenger {
         return passCode;
     }
 
-    @Column(name = "FLIGHTS")
-    @OneToMany(targetEntity = Flight.class)
-    public Collection<Flight> getFlights() {
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Flight.class)
+    // @Column(name = "FLIGHTS")
+    public List getFlights() {
         return flights;
     }
 
@@ -71,7 +72,7 @@ public class Passenger {
         this.passCode = passCode;
     }
 
-    public void setFlights(Collection<Flight> flights) {
+    public void setFlights(List<Flight> flights) {
         this.flights = flights;
     }
 

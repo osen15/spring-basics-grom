@@ -1,25 +1,23 @@
 package com.lesson6.hw.models;
 
 
-import javax.persistence.*;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Objects;
+import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
+import java.util.*;
+
+
+@Component
 @Entity
 @Table(name = "FLIGHT")
 public class Flight {
 
-
-    public Flight() {
-    }
-
     private Long id;
     private Plane plane;
-    private Collection<Passenger> passengers;
     private Date dateFlight;
     private String cityFrom;
     private String cityTo;
+    private Collection passengers;
 
     @Id
     @Column(name = "ID")
@@ -27,16 +25,18 @@ public class Flight {
         return id;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "PLANE_ID", unique = true, updatable = false)
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PLANE_ID")
     public Plane getPlane() {
         return plane;
     }
 
-    @Column(name = "PASSENGERS")
-    @OneToMany(targetEntity = Passenger.class)
-    public Collection<Passenger> getPassengers() {
-        return passengers;
+    public void setPlane(Plane plane) {
+        this.plane = plane;
     }
 
     @Column(name = "DATE_FLIGHT")
@@ -44,9 +44,17 @@ public class Flight {
         return dateFlight;
     }
 
+    public void setDateFlight(Date dateFlight) {
+        this.dateFlight = dateFlight;
+    }
+
     @Column(name = "CITY_FROM")
     public String getCityFrom() {
         return cityFrom;
+    }
+
+    public void setCityFrom(String cityFrom) {
+        this.cityFrom = cityFrom;
     }
 
     @Column(name = "CITY_TO")
@@ -54,28 +62,18 @@ public class Flight {
         return cityTo;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCityTo(String cityTo) {
+        this.cityTo = cityTo;
     }
-
-    public void setPlane(Plane plane) {
-        this.plane = plane;
+    @OneToMany(targetEntity = Passenger.class,
+            fetch = FetchType.LAZY)
+   // @Column(name = "PASSENGERS")
+    public Collection getPassengers() {
+        return passengers;
     }
 
     public void setPassengers(Collection<Passenger> passengers) {
         this.passengers = passengers;
-    }
-
-    public void setDateFlight(Date dateFlight) {
-        this.dateFlight = dateFlight;
-    }
-
-    public void setCityFrom(String cityFrom) {
-        this.cityFrom = cityFrom;
-    }
-
-    public void setCityTo(String cityTo) {
-        this.cityTo = cityTo;
     }
 
     @Override
@@ -85,16 +83,16 @@ public class Flight {
         Flight flight = (Flight) o;
         return Objects.equals(id, flight.id) &&
                 Objects.equals(plane, flight.plane) &&
-                Objects.equals(passengers, flight.passengers) &&
                 Objects.equals(dateFlight, flight.dateFlight) &&
                 Objects.equals(cityFrom, flight.cityFrom) &&
-                Objects.equals(cityTo, flight.cityTo);
+                Objects.equals(cityTo, flight.cityTo) &&
+                Objects.equals(passengers, flight.passengers);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, plane, passengers, dateFlight, cityFrom, cityTo);
+        return Objects.hash(id, plane, dateFlight, cityFrom, cityTo, passengers);
     }
 
     @Override
@@ -102,10 +100,12 @@ public class Flight {
         return "Flight{" +
                 "id=" + id +
                 ", plane=" + plane +
-                ", passengers=" + passengers +
                 ", dateFlight=" + dateFlight +
                 ", cityFrom='" + cityFrom + '\'' +
                 ", cityTo='" + cityTo + '\'' +
+                ", passengers=" + passengers +
                 '}';
     }
 }
+
+
