@@ -12,64 +12,62 @@ import java.util.Objects;
 @Entity
 @Table(name = "PASSENGER")
 public class Passenger {
-    private Long id;
-    private String lastName;
-    private String nationality;
-    private Date dateOfBirth;
-    private String passCode;
-    private List flights;
-
-
     @Id
     @Column(name = "ID")
+    private Long id;
+    @Column(name = "LAST_NAME")
+    private String lastName;
+    @Column(name = "NATIONALITY")
+    private String nationality;
+    @Column(name = "DATE_OF_BIRTH")
+    private Date dateOfBirth;
+    @Column(name = "PASS_CODE")
+    private String passCode;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "passenger")
+    private List<Flight> flights;
+
     public Long getId() {
         return id;
-    }
-
-    @Column(name = "LAST_NAME")
-    public String getLastName() {
-        return lastName;
-    }
-
-    @Column(name = "NATIONALITY")
-    public String getNationality() {
-        return nationality;
-    }
-
-    @Column(name = "DATE_OF_BIRTH")
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    @Column(name = "PASS_CODE")
-    public String getPassCode() {
-        return passCode;
-    }
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Flight.class)
-    // @Column(name = "FLIGHTS")
-    public List getFlights() {
-        return flights;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getNationality() {
+        return nationality;
     }
 
     public void setNationality(String nationality) {
         this.nationality = nationality;
     }
 
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public String getPassCode() {
+        return passCode;
+    }
+
     public void setPassCode(String passCode) {
         this.passCode = passCode;
+    }
+
+    public List<Flight> getFlights() {
+        return flights;
     }
 
     public void setFlights(List<Flight> flights) {

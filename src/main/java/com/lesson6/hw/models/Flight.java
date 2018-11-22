@@ -11,16 +11,22 @@ import java.util.*;
 @Entity
 @Table(name = "FLIGHT")
 public class Flight {
-
-    private Long id;
-    private Plane plane;
-    private Date dateFlight;
-    private String cityFrom;
-    private String cityTo;
-    private Collection passengers;
-
     @Id
     @Column(name = "ID")
+    private Long id;
+    @ManyToOne
+    @JoinColumn(name = "PLANE_ID")
+    private Plane plane;
+    @Column(name = "DATE_FLIGHT")
+    private Date dateFlight;
+    @Column(name = "CITY_FROM")
+    private String cityFrom;
+    @Column(name = "CITY_TO")
+    private String cityTo;
+    @ManyToOne
+    @JoinColumn(name = "PASSENGER_ID")
+    private Passenger passenger;
+
     public Long getId() {
         return id;
     }
@@ -29,8 +35,6 @@ public class Flight {
         this.id = id;
     }
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PLANE_ID")
     public Plane getPlane() {
         return plane;
     }
@@ -39,7 +43,6 @@ public class Flight {
         this.plane = plane;
     }
 
-    @Column(name = "DATE_FLIGHT")
     public Date getDateFlight() {
         return dateFlight;
     }
@@ -48,7 +51,6 @@ public class Flight {
         this.dateFlight = dateFlight;
     }
 
-    @Column(name = "CITY_FROM")
     public String getCityFrom() {
         return cityFrom;
     }
@@ -57,7 +59,6 @@ public class Flight {
         this.cityFrom = cityFrom;
     }
 
-    @Column(name = "CITY_TO")
     public String getCityTo() {
         return cityTo;
     }
@@ -65,16 +66,15 @@ public class Flight {
     public void setCityTo(String cityTo) {
         this.cityTo = cityTo;
     }
-    @OneToMany(targetEntity = Passenger.class,
-            fetch = FetchType.LAZY)
-   // @Column(name = "PASSENGERS")
-    public Collection getPassengers() {
-        return passengers;
+
+    public Passenger getPassenger() {
+        return passenger;
     }
 
-    public void setPassengers(Collection<Passenger> passengers) {
-        this.passengers = passengers;
+    public void setPassenger(Passenger passenger) {
+        this.passenger = passenger;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -86,13 +86,13 @@ public class Flight {
                 Objects.equals(dateFlight, flight.dateFlight) &&
                 Objects.equals(cityFrom, flight.cityFrom) &&
                 Objects.equals(cityTo, flight.cityTo) &&
-                Objects.equals(passengers, flight.passengers);
+                Objects.equals(passenger, flight.passenger);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, plane, dateFlight, cityFrom, cityTo, passengers);
+        return Objects.hash(id, plane, dateFlight, cityFrom, cityTo, passenger);
     }
 
     @Override
@@ -103,9 +103,7 @@ public class Flight {
                 ", dateFlight=" + dateFlight +
                 ", cityFrom='" + cityFrom + '\'' +
                 ", cityTo='" + cityTo + '\'' +
-                ", passengers=" + passengers +
+                ", passenger=" + passenger +
                 '}';
     }
 }
-
-

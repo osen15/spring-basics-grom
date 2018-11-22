@@ -1,20 +1,23 @@
 package com.lesson6.hw.dao;
 
 import com.lesson6.hw.models.Flight;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
 import java.util.ArrayList;
 
 
 @Repository
-public class FlightDao {
+public class FlightDao extends GeneralDAO<Flight> {
+
+    private SessionFactory sessionFactory;
 
     @PersistenceContext
     private EntityManager entityManager;
+
 
     private Flight flight;
 
@@ -43,15 +46,27 @@ public class FlightDao {
 
 
     public Flight findById(Long id) throws NullPointerException {
-        flight = entityManager.find(Flight.class, id);
-        if (flight == null)
-            throw new NullPointerException("Flight with id: " + id + " not found");
-        return flight;
+
+        try {
+
+
+            return entityManager.find(Flight.class, id);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+//            flight = entityManager.find(Flight.class, id);
+//            if (flight == null)
+//                throw new NullPointerException("Flight with id: " + id + " not found");
+
+        return null;
     }
 
 
     public ArrayList<Flight> flightsByDate() {
-         ArrayList<Flight> flights;
+        ArrayList<Flight> flights;
 
         //ObjectMapper objectMapper = new ObjectMapper();
 
@@ -93,6 +108,13 @@ public class FlightDao {
 //        return flights;
 //
 //
+    }
+
+
+    public SessionFactory createSessionFactory() {
+        if (sessionFactory == null)
+            sessionFactory = new org.hibernate.cfg.Configuration().configure().buildSessionFactory();
+        return sessionFactory;
     }
 
 

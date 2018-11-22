@@ -2,6 +2,7 @@ package com.lesson6.hw.appConf;
 
 import com.lesson6.hw.models.Flight;
 import com.lesson6.hw.models.Passenger;
+import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 
 import org.springframework.context.annotation.Configuration;
@@ -56,6 +57,8 @@ public class AppConf {
 
         return transactionManager;
     }
+
+
 //
 //    @Bean
 //    Flight flight(){
