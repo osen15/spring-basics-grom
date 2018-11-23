@@ -1,6 +1,8 @@
 package com.lesson6.hw.models;
 
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -23,9 +25,11 @@ public class Flight {
     private String cityFrom;
     @Column(name = "CITY_TO")
     private String cityTo;
-    @ManyToOne
-    @JoinColumn(name = "PASSENGER_ID")
-    private Passenger passenger;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "FLIGHT_AND_PASSENGER", joinColumns = @JoinColumn(name = "FLIGHT_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "PASSENGER_ID", referencedColumnName = "ID"))
+    private List<Passenger> passengers;
+
 
     public Long getId() {
         return id;
@@ -67,14 +71,13 @@ public class Flight {
         this.cityTo = cityTo;
     }
 
-    public Passenger getPassenger() {
-        return passenger;
+    public List<Passenger> getPassenger() {
+        return passengers;
     }
 
-    public void setPassenger(Passenger passenger) {
-        this.passenger = passenger;
+    public void setPassenger(List<Passenger> passenger) {
+        this.passengers = passenger;
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -86,13 +89,13 @@ public class Flight {
                 Objects.equals(dateFlight, flight.dateFlight) &&
                 Objects.equals(cityFrom, flight.cityFrom) &&
                 Objects.equals(cityTo, flight.cityTo) &&
-                Objects.equals(passenger, flight.passenger);
+                Objects.equals(passengers, flight.passengers);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, plane, dateFlight, cityFrom, cityTo, passenger);
+        return Objects.hash(id, plane, dateFlight, cityFrom, cityTo, passengers);
     }
 
     @Override
@@ -103,7 +106,7 @@ public class Flight {
                 ", dateFlight=" + dateFlight +
                 ", cityFrom='" + cityFrom + '\'' +
                 ", cityTo='" + cityTo + '\'' +
-                ", passenger=" + passenger +
+                ", passenger=" + passengers +
                 '}';
     }
 }

@@ -1,6 +1,8 @@
 package com.lesson6.hw.models;
 
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -23,7 +25,7 @@ public class Passenger {
     private Date dateOfBirth;
     @Column(name = "PASS_CODE")
     private String passCode;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "passenger")
+    @ManyToMany(mappedBy = "passengers")
     private List<Flight> flights;
 
     public Long getId() {
