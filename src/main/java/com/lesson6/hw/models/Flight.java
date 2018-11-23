@@ -25,7 +25,6 @@ public class Flight {
     private String cityFrom;
     @Column(name = "CITY_TO")
     private String cityTo;
-    @Fetch(FetchMode.JOIN)
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "FLIGHT_AND_PASSENGER", joinColumns = @JoinColumn(name = "FLIGHT_ID", referencedColumnName = "ID"),
             inverseJoinColumns = @JoinColumn(name = "PASSENGER_ID", referencedColumnName = "ID"))
