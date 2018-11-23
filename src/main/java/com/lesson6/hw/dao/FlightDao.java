@@ -1,6 +1,7 @@
 package com.lesson6.hw.dao;
 
 import com.lesson6.hw.models.Flight;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -8,12 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import java.util.ArrayList;
 
 
 @Repository
-@Transactional
+
 public class FlightDao extends GeneralDAO<Flight> {
 
     private SessionFactory sessionFactory;
@@ -50,12 +52,10 @@ public class FlightDao extends GeneralDAO<Flight> {
 
     public Flight findById(Long id) throws NullPointerException {
 
+
         try {
 
-
-            return entityManager.find (Flight.class, id);
-
-
+            return entityManager.find(Flight.class, id);
         } catch (Exception e) {
             e.printStackTrace();
         }

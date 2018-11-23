@@ -25,7 +25,9 @@ public class Passenger {
     private Date dateOfBirth;
     @Column(name = "PASS_CODE")
     private String passCode;
-    @ManyToMany(mappedBy = "passengers")
+    @ManyToMany
+    @JoinTable(name = "FLIGHT_AND_PASSENGER", joinColumns = @JoinColumn(name = "PASSENGER_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "FLIGHT_ID", referencedColumnName = "ID"))
     private List<Flight> flights;
 
     public Long getId() {
