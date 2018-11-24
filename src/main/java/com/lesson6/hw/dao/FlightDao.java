@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 
 @Repository
-
+@Transactional
 public class FlightDao extends GeneralDAO<Flight> {
 
     private SessionFactory sessionFactory;

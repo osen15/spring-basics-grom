@@ -23,7 +23,10 @@ public class Passenger {
     private Date dateOfBirth;
     @Column(name = "PASS_CODE")
     private String passCode;
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER, mappedBy = "passengers")
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "FLIGHT_AND_PASSENGER", joinColumns = @JoinColumn(name = "PASSENGER_ID", referencedColumnName = "ID"))
+    @Column(name = "FLIGHT_ID")
     private Collection<Flight> flights = new HashSet<>();
 
     public Long getId() {

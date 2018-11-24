@@ -3,11 +3,11 @@ package com.lesson6.hw.models;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Proxy;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.*;
-
 
 @Component
 @Entity
@@ -25,9 +25,10 @@ public class Flight {
     private String cityFrom;
     @Column(name = "CITY_TO")
     private String cityTo;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "FLIGHT_AND_PASSENGER", joinColumns = @JoinColumn(name = "FLIGHT_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "PASSENGER_ID", referencedColumnName = "ID"))
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "FLIGHT_AND_PASSENGER", joinColumns = @JoinColumn(name = "FLIGHT_ID", referencedColumnName = "ID"))
+    @Column(name = "PASSENGER_ID")
     private Collection<Passenger> passengers = new HashSet<>();
 
 
