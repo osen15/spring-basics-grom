@@ -6,9 +6,7 @@ import org.hibernate.annotations.FetchMode;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Component
 @Entity
@@ -25,10 +23,8 @@ public class Passenger {
     private Date dateOfBirth;
     @Column(name = "PASS_CODE")
     private String passCode;
-    @ManyToMany
-    @JoinTable(name = "FLIGHT_AND_PASSENGER", joinColumns = @JoinColumn(name = "PASSENGER_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "FLIGHT_ID", referencedColumnName = "ID"))
-    private List<Flight> flights;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER, mappedBy = "passengers")
+    private Collection<Flight> flights = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -70,11 +66,11 @@ public class Passenger {
         this.passCode = passCode;
     }
 
-    public List<Flight> getFlights() {
+    public Collection<Flight> getFlights() {
         return flights;
     }
 
-    public void setFlights(List<Flight> flights) {
+    public void setFlights(Collection<Flight> flights) {
         this.flights = flights;
     }
 

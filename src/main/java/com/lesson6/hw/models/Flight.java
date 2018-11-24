@@ -28,7 +28,7 @@ public class Flight {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "FLIGHT_AND_PASSENGER", joinColumns = @JoinColumn(name = "FLIGHT_ID", referencedColumnName = "ID"),
             inverseJoinColumns = @JoinColumn(name = "PASSENGER_ID", referencedColumnName = "ID"))
-    private List<Passenger> passengers;
+    private Collection<Passenger> passengers = new HashSet<>();
 
 
     public Long getId() {
@@ -71,11 +71,11 @@ public class Flight {
         this.cityTo = cityTo;
     }
 
-    public List<Passenger> getPassengers() {
+    public Collection<Passenger> getPassengers() {
         return passengers;
     }
 
-    public void setPassengers(List<Passenger> passengers) {
+    public void setPassengers(Collection<Passenger> passengers) {
         this.passengers = passengers;
     }
 
