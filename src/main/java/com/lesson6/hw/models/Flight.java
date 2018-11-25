@@ -1,19 +1,22 @@
 package com.lesson6.hw.models;
 
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.Proxy;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 @Component
 @Entity
 @Table(name = "FLIGHT")
-public class Flight {
+public class Flight implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+
     @Id
+    @SequenceGenerator(name = "F_SEQ", sequenceName = "FLIGHT_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "F_SEQ")
     @Column(name = "ID")
     private Long id;
     @ManyToOne
@@ -26,9 +29,10 @@ public class Flight {
     @Column(name = "CITY_TO")
     private String cityTo;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "FLIGHT_AND_PASSENGER", joinColumns = @JoinColumn(name = "FLIGHT_ID", referencedColumnName = "ID"))
-    @Column(name = "PASSENGER_ID")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "FLIGHT_AND_PASSENGER",
+            joinColumns = @JoinColumn(name = "FLIGHT_ID", referencedColumnName="ID"),
+            inverseJoinColumns = @JoinColumn(name = "PASSENGER_ID", referencedColumnName="ID"))
     private Collection<Passenger> passengers = new HashSet<>();
 
 
@@ -99,6 +103,7 @@ public class Flight {
         return Objects.hash(id, plane, dateFlight, cityFrom, cityTo, passengers);
     }
 
+
     @Override
     public String toString() {
         return "Flight{" +
@@ -107,7 +112,6 @@ public class Flight {
                 ", dateFlight=" + dateFlight +
                 ", cityFrom='" + cityFrom + '\'' +
                 ", cityTo='" + cityTo + '\'' +
-                ", passenger=" + passengers +
                 '}';
     }
 }

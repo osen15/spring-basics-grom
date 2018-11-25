@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 
 @Repository
-@Transactional
+
 public class FlightDao extends GeneralDAO<Flight> {
 
     private SessionFactory sessionFactory;
@@ -49,22 +49,8 @@ public class FlightDao extends GeneralDAO<Flight> {
         return entityManager.merge(flight);
     }
 
-
-    public Flight findById(Long id) throws NullPointerException {
-
-
-        try {
-
-            return entityManager.find(Flight.class, id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-//            flight = entityManager.find(Flight.class, id);
-//            if (flight == null)
-//                throw new NullPointerException("Flight with id: " + id + " not found");
-
-        return null;
+    public Flight findById(Long id) throws NullPointerException{
+        return entityManager.find(Flight.class, id);
     }
 
 

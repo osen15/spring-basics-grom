@@ -2,10 +2,7 @@ package com.lesson6.hw.models;
 
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
@@ -20,10 +17,10 @@ public class Plane {
     private Double avgFuelConsumption;
 
 
-    public Plane() {
-    }
 
     @Id
+    @SequenceGenerator(name = "PL_SEQ", sequenceName = "PLANE_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PL_SEQ")
     @Column(name = "ID")
     public Long getId() {
         return id;
