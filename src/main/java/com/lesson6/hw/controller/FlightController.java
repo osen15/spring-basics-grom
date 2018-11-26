@@ -2,6 +2,7 @@ package com.lesson6.hw.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.lesson6.hw.models.Filter;
 import com.lesson6.hw.models.Flight;
 import com.lesson6.hw.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,14 @@ public class FlightController {
     String deleteFlight(@RequestParam("id") String id) {
         flightService.delete(Long.parseLong(id));
         return "flight deleted";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/filter", produces = "text-plain")
+    public @ResponseBody
+    String getFlightsByDate(HttpServletRequest req) throws Exception {
+        Filter filter = (Filter) jsonToEntity(req);
+        return flightService.filterFlights(filter).toString();
+
     }
 
 

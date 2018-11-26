@@ -1,6 +1,9 @@
 package com.lesson6.hw.dao;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lesson6.hw.models.Filter;
 import com.lesson6.hw.models.Flight;
+import com.lesson6.hw.models.Plane;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map;
 
 
 @Repository
@@ -49,64 +55,45 @@ public class FlightDao extends GeneralDAO<Flight> {
         return entityManager.merge(flight);
     }
 
-    public Flight findById(Long id) throws NullPointerException{
+    public Flight findById(Long id) throws NullPointerException {
         return entityManager.find(Flight.class, id);
     }
 
 
-    public ArrayList<Flight> flightsByDate() {
-        ArrayList<Flight> flights;
+    public HashSet<Flight> flightsByDate(Filter filter) {
+        HashSet<Flight> flights;
 
-        //ObjectMapper objectMapper = new ObjectMapper();
-
-        //  Map<String, Object> stringObjectMap = objectMapper.convertValue(filter, Map.class);
-
-
-        flights = (ArrayList<Flight>) entityManager.createQuery("from Flight").getResultList();
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> filterParameters = objectMapper.convertValue(filter, Map.class);
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Flight> flightCriteria = criteriaBuilder.createQuery(Flight.class);
+        Root<Flight> flightRoot = flightCriteria.from(Flight.class);
+        Join<Plane, Flight> planeJoin = flightRoot.join("plane");
+        Predicate predicate = criteriaBuilder.conjunction();
+        for (String parameter : filterParameters.keySet()) {
+            if (filterParameters.get(parameter) != null) {
+                if (parameter.equals("dateFlight")
+                        || parameter.equals("cityFrom")
+                        || parameter.equals("cityTo")
+                        || parameter.equals("plane")) {
+                    predicate = criteriaBuilder.and(predicate, criteriaBuilder
+                            .equal(planeJoin.get(parameter), filterParameters.get(parameter)));
+                }
+                if (filter.getStartDate() != null && filter.getFinishDate() != null) {
+                    predicate = criteriaBuilder
+                            .and(predicate, criteriaBuilder
+                                    .between(planeJoin.get("dateFlight"), filter.getStartDate(), filter.getFinishDate()));
+                } else {
+                    predicate = criteriaBuilder.and(predicate, criteriaBuilder
+                            .equal(flightRoot.get(parameter), filterParameters.get(parameter)));
+                }
+            }
+        }
+        flightCriteria.select(flightRoot).where(predicate);
+        flights = (HashSet<Flight>) entityManager.createQuery(flightCriteria).getResultList();
         return flights;
 
-
-//        Predicate where = criteriaBuilder.conjunction();
-        //return (ArrayList<Flight>) query.getResultList();
-//
-//
-//        for (String param : stringObjectMap.keySet()) {
-//            if (stringObjectMap.get(param) != null) {
-//                if (param.equals("startDate") && param.equals("finishDate"))
-//
-//                    where = criteriaBuilder
-//                            .between(from.get("dateFlight"), filter.getStartDate(), filter.getFinishDate());
-//
-//                if (param.equals("dateFlight") || param.equals("cityFrom")
-//                        || param.equals("cityTo") || param.equals("plane"))
-//                where = criteriaBuilder
-//                        .and(where, criteriaBuilder.equal(join.get(param), stringObjectMap.get(param)));
-//
-//
-//
-//            } else where = criteriaBuilder
-//                    .and(where, criteriaBuilder.equal(from.get(param), stringObjectMap.get(param)));
-//
-//
-//        }
-
-//         flights = (TreeSet<Flight>) entityManager
-//                 .createQuery(flightCriteriaQuery
-//                         .select(from).where(where))
-//                 .getResultList();
-//        return flights;
-//
-//
     }
-
-
-    public SessionFactory createSessionFactory() {
-        if (sessionFactory == null)
-            sessionFactory = new org.hibernate.cfg.Configuration().configure().buildSessionFactory();
-        return sessionFactory;
-    }
-
-
 }
 
 
