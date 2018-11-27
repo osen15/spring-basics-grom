@@ -5,10 +5,9 @@ import org.springframework.stereotype.Component;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
-
+@Component
 @Entity
 @Table(name = "Plane")
-@Component
 public class Plane {
     private Long id;
     private String name;
@@ -17,6 +16,8 @@ public class Plane {
     private Double avgFuelConsumption;
 
 
+    public Plane() {
+    }
 
     @Id
     @SequenceGenerator(name = "PL_SEQ", sequenceName = "PLANE_SEQ", allocationSize = 1)
@@ -96,4 +97,7 @@ public class Plane {
                 ", avgFuelConsumption=" + avgFuelConsumption +
                 '}';
     }
+
+
+
 }

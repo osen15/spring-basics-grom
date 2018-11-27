@@ -1,15 +1,9 @@
 package com.lesson6.hw.appConf;
 
-import com.lesson6.hw.models.Flight;
-import com.lesson6.hw.models.Passenger;
-import org.hibernate.SessionFactory;
-import org.springframework.context.annotation.Bean;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.jpa.JpaDialect;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -21,7 +15,6 @@ import javax.persistence.EntityManagerFactory;
 
 @Configuration
 @EnableTransactionManagement
-
 public class AppConf {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
@@ -61,16 +54,7 @@ public class AppConf {
     }
 
 
-//
-//    @Bean
-//    Flight flight(){
-//        return new Flight();
-//    }
 
-    @Bean
-    Passenger passenger(){
-        return new Passenger();
-    }
 
 
 }
