@@ -1,7 +1,5 @@
 package com.lesson6.hw.models;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -25,7 +23,7 @@ public class Passenger {
     @Column(name = "PASS_CODE")
     private String passCode;
 
-    @ManyToMany(mappedBy = "passengers")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "passengers")
     private Collection<Flight> flights = new HashSet<>();
 
 
@@ -96,5 +94,15 @@ public class Passenger {
         return Objects.hash(id, lastName, nationality, dateOfBirth, passCode, flights);
     }
 
-
+    @Override
+    public String toString() {
+        return "Passenger{" +
+                "id=" + id +
+                ", lastName='" + lastName + '\'' +
+                ", nationality='" + nationality + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", passCode='" + passCode + '\'' +
+                ", flights=" + flights +
+                '}';
+    }
 }

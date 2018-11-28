@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.Objects;
 @Component
 @Entity
-@Table(name = "Plane")
+@Table(name = "PLANE")
 public class Plane {
     private Long id;
     private String name;

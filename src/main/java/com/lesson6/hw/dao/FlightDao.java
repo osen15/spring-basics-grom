@@ -4,32 +4,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lesson6.hw.models.Filter;
 import com.lesson6.hw.models.Flight;
 import com.lesson6.hw.models.Plane;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.criteria.*;
-
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Map;
 
 
 @Repository
-
 public class FlightDao extends GeneralDAO<Flight> {
-
-    private SessionFactory sessionFactory;
-
     @PersistenceContext
     private EntityManager entityManager;
-
-
     private Flight flight;
 
     @Autowired
@@ -37,19 +25,14 @@ public class FlightDao extends GeneralDAO<Flight> {
         this.flight = flight;
     }
 
-
     public void save(Flight flight) {
         entityManager.persist(flight);
-
     }
-
 
     public void delete(Long id) {
         flight = findById(id);
         entityManager.remove(flight);
-
     }
-
 
     public Flight update(Flight flight) {
         return entityManager.merge(flight);
@@ -59,42 +42,35 @@ public class FlightDao extends GeneralDAO<Flight> {
         return entityManager.find(Flight.class, id);
     }
 
-
-    public HashSet<Flight> flightsByDate(Filter filter) {
-        HashSet<Flight> flights;
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> filterParameters = objectMapper.convertValue(filter, Map.class);
+    public ArrayList<Flight> flightsByDate(Filter filter) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Flight> flightCriteria = criteriaBuilder.createQuery(Flight.class);
-        Root<Flight> flightRoot = flightCriteria.from(Flight.class);
-        Join<Plane, Flight> planeJoin = flightRoot.join("plane");
+        Root<Flight> from = flightCriteria.from(Flight.class);
+        Join<Flight, Plane> planeJoin = from.join("plane");
         Predicate predicate = criteriaBuilder.conjunction();
-        for (String parameter : filterParameters.keySet()) {
-            if (filterParameters.get(parameter) != null) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> stringObjectMap = objectMapper.convertValue(filter, Map.class);
+        System.out.println(stringObjectMap.toString());
+        for (String parameter : stringObjectMap.keySet()) {
+            if (stringObjectMap.get(parameter) != null) {
                 if (parameter.equals("dateFlight")
                         || parameter.equals("cityFrom")
-                        || parameter.equals("cityTo")
-                        || parameter.equals("plane")) {
+                        || parameter.equals("cityTo")) {
                     predicate = criteriaBuilder.and(predicate, criteriaBuilder
-                            .equal(planeJoin.get(parameter), filterParameters.get(parameter)));
+                            .equal(from.get(parameter), stringObjectMap.get(parameter)));
                 }
                 if (filter.getStartDate() != null && filter.getFinishDate() != null) {
                     predicate = criteriaBuilder
                             .and(predicate, criteriaBuilder
-                                    .between(planeJoin.get("dateFlight"), filter.getStartDate(), filter.getFinishDate()));
-                } else {
+                                    .between(from.get("dateFlight"), filter.getStartDate(), filter.getFinishDate()));
+                }
+                if (filter.getPlaneName() != null) {
                     predicate = criteriaBuilder.and(predicate, criteriaBuilder
-                            .equal(flightRoot.get(parameter), filterParameters.get(parameter)));
+                            .equal(planeJoin.get("name"), filter.getPlaneName()));
                 }
             }
         }
-        flightCriteria.select(flightRoot).where(predicate);
-        flights = (HashSet<Flight>) entityManager.createQuery(flightCriteria).getResultList();
-        return flights;
-
+        flightCriteria.select(from).where(predicate);
+        return (ArrayList<Flight>) entityManager.createQuery(flightCriteria).getResultList();
     }
 }
-
-
-

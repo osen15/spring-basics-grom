@@ -43,6 +43,7 @@ public class FlightController {
     public @ResponseBody
     String saveFlight(HttpServletRequest req) throws Exception {
         Flight flight = flightJsonToModel.jsonToEntity(req, Flight.class);
+        System.out.println(flight.toString());
         flightService.save(flight);
         return "flight saved";
     }

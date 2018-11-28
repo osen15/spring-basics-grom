@@ -49,7 +49,7 @@ public class FlightService extends GeneralService<Flight> {
     }
 
 
-    public HashSet<Flight> filterFlights(Filter filter) {
+    public ArrayList<Flight> filterFlights(Filter filter) {
         return flightDao.flightsByDate(filter);
 
 

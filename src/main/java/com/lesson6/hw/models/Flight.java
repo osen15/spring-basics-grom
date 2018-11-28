@@ -4,16 +4,12 @@ package com.lesson6.hw.models;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.*;
 
 @Component
 @Entity
 @Table(name = "FLIGHT")
-public class Flight implements Serializable {
-    private static final long serialVersionUID = 1L;
-
-
+public class Flight {
     @Id
     @SequenceGenerator(name = "F_SEQ", sequenceName = "FLIGHT_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "F_SEQ")
@@ -28,11 +24,10 @@ public class Flight implements Serializable {
     private String cityFrom;
     @Column(name = "CITY_TO")
     private String cityTo;
-
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "FLIGHT_AND_PASSENGER",
-            joinColumns = @JoinColumn(name = "FLIGHT_ID", referencedColumnName="ID"),
-            inverseJoinColumns = @JoinColumn(name = "PASSENGER_ID", referencedColumnName="ID"))
+            joinColumns = @JoinColumn(name = "FLIGHT_ID"),
+            inverseJoinColumns = @JoinColumn(name = "PASSENGER_ID"))
     private Collection<Passenger> passengers = new HashSet<>();
 
 
@@ -112,6 +107,7 @@ public class Flight implements Serializable {
                 ", dateFlight=" + dateFlight +
                 ", cityFrom='" + cityFrom + '\'' +
                 ", cityTo='" + cityTo + '\'' +
+                ", passengers=" + passengers +
                 '}';
     }
 }

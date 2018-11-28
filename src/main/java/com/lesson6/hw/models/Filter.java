@@ -12,8 +12,20 @@ public class Filter {
     private Date finishDate;
     private String cityFrom;
     private String cityTo;
-    private Plane plane;
+    private String planeName;
 
+
+    public Filter() {
+
+    }
+
+    public Date getDateFlight() {
+        return dateFlight;
+    }
+
+    public void setDateFlight(Date dateFlight) {
+        this.dateFlight = dateFlight;
+    }
 
     public Date getStartDate() {
         return startDate;
@@ -29,14 +41,6 @@ public class Filter {
 
     public void setFinishDate(Date finishDate) {
         this.finishDate = finishDate;
-    }
-
-    public Date getDateFlight() {
-        return dateFlight;
-    }
-
-    public void setDateFlight(Date dateFlight) {
-        this.dateFlight = dateFlight;
     }
 
     public String getCityFrom() {
@@ -55,12 +59,12 @@ public class Filter {
         this.cityTo = cityTo;
     }
 
-    public Plane getPlane() {
-        return plane;
+    public String getPlaneName() {
+        return planeName;
     }
 
-    public void setPlane(Plane plane) {
-        this.plane = plane;
+    public void setPlaneName(String planeName) {
+        this.planeName = planeName;
     }
 
     @Override
@@ -69,24 +73,28 @@ public class Filter {
         if (o == null || getClass() != o.getClass()) return false;
         Filter filter = (Filter) o;
         return Objects.equals(dateFlight, filter.dateFlight) &&
+                Objects.equals(startDate, filter.startDate) &&
+                Objects.equals(finishDate, filter.finishDate) &&
                 Objects.equals(cityFrom, filter.cityFrom) &&
                 Objects.equals(cityTo, filter.cityTo) &&
-                Objects.equals(plane, filter.plane);
+                Objects.equals(planeName, filter.planeName);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(dateFlight, cityFrom, cityTo, plane);
+        return Objects.hash(dateFlight, startDate, finishDate, cityFrom, cityTo, planeName);
     }
 
     @Override
     public String toString() {
         return "Filter{" +
                 "dateFlight=" + dateFlight +
+                ", startDate=" + startDate +
+                ", finishDate=" + finishDate +
                 ", cityFrom='" + cityFrom + '\'' +
                 ", cityTo='" + cityTo + '\'' +
-                ", plane=" + plane +
+                ", planeName='" + planeName + '\'' +
                 '}';
     }
 }

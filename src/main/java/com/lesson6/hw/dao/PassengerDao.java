@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Repository
-@Transactional
 public class PassengerDao {
 
     @PersistenceContext
@@ -19,25 +18,22 @@ public class PassengerDao {
     @Autowired
     public PassengerDao(Passenger passenger) {
         this.passenger = passenger;
-    }
+        }
 
+        private String regular_Passengers = "select passenger from Passenger join";
 
     public void save(Passenger passenger) {
         entityManager.persist(passenger);
     }
 
-
     public void delete(Passenger passenger) {
         passenger = findById(passenger.getId());
         entityManager.remove(passenger);
-
     }
-
 
     public Passenger update(Passenger passenger) {
         return entityManager.merge(passenger);
     }
-
 
     public Passenger findById(Long id) throws NullPointerException {
         passenger = entityManager.find(Passenger.class, id);
@@ -45,9 +41,6 @@ public class PassengerDao {
             throw new NullPointerException("Passenger with id: " + id + " not found");
         return passenger;
     }
-
-
-
 
 
 }
