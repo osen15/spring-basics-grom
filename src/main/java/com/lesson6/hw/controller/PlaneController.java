@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -29,39 +30,71 @@ public class PlaneController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/get", produces = "text-plain")
     public @ResponseBody
-    String getPlane(@RequestParam("id") String id) throws Exception {
-        return planeService.get(Long.parseLong(id)).toString();
+    String getPlane(@RequestParam("id") String id) throws NullPointerException, NumberFormatException {
+        try {
+            return planeService.get(Long.parseLong(id)).toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "something went wrong";
+        }
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/save", produces = "text-plain")
     public @ResponseBody
-    String savePlane(HttpServletRequest req) throws Exception {
+    String savePlane(HttpServletRequest req) throws NullPointerException, IllegalArgumentException {
         Plane plane = jsonToModel.jsonToEntity(req, Plane.class);
-        System.out.println(plane.toString());
-        planeService.save(plane);
-        return "the plane is saved";
+        try {
+            planeService.save(plane);
+            return "the plane is saved";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "something went wrong";
+        }
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete", produces = "text-plain")
     public @ResponseBody
-    String deletePlane(@RequestParam("id") String id) throws Exception {
-        planeService.delete(Long.parseLong(id));
-        return "plane with id: " + id + " deleted";
+    String deletePlane(@RequestParam("id") String id) throws NullPointerException, NumberFormatException {
+        try {
+            planeService.delete(Long.parseLong(id));
+            return "plane with id: " + id + " deleted";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "something went wrong";
+        }
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/update", produces = "text-plain")
-    String updatePlane(HttpServletRequest req) throws Exception {
+    String updatePlane(HttpServletRequest req) throws NullPointerException, IllegalArgumentException {
         Plane plane = jsonToModel.jsonToEntity(req, Plane.class);
-        planeService.update(plane);
-        return "plane with id : " + plane.getId() + " updated";
+        try {
+            planeService.update(plane);
+            return "plane with id : " + plane.getId() + " updated";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "something went wrong";
+        }
     }
-
 
     @RequestMapping(method = RequestMethod.GET, value = "/old-planes", produces = "text-plain")
     public @ResponseBody
-    String getOldPlanes() throws Exception {
-        return planeService.oldPlanes().toString();
+    String getOldPlanes() throws NullPointerException, IllegalArgumentException {
+        try {
+            return planeService.oldPlanes().toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "something went wrong";
+        }
     }
 
-
+    @RequestMapping(method = RequestMethod.GET, value = "/regular-planes", produces = "text-plain")
+    public @ResponseBody
+    String getRegularPlanes() throws NullPointerException, IllegalArgumentException {
+        try {
+            return planeService.regularPlanes().toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "something went wrong";
+        }
+    }
 }

@@ -30,7 +30,6 @@ public class Flight {
             inverseJoinColumns = @JoinColumn(name = "PASSENGER_ID"))
     private Collection<Passenger> passengers = new HashSet<>();
 
-
     public Long getId() {
         return id;
     }
@@ -98,7 +97,6 @@ public class Flight {
         return Objects.hash(id, plane, dateFlight, cityFrom, cityTo, passengers);
     }
 
-
     @Override
     public String toString() {
         return "Flight{" +
@@ -107,7 +105,6 @@ public class Flight {
                 ", dateFlight=" + dateFlight +
                 ", cityFrom='" + cityFrom + '\'' +
                 ", cityTo='" + cityTo + '\'' +
-                ", passengers=" + passengers +
                 '}';
     }
 }

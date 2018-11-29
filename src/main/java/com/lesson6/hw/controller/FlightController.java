@@ -34,42 +34,82 @@ public class FlightController {
     String getFlight(@RequestParam("id") String id) throws NullPointerException, NumberFormatException {
         try {
             return flightService.get(Long.parseLong(id)).toString();
-        } catch (NullPointerException | NumberFormatException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return "something went wrong, flight not found";
         }
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/save", produces = "text-plain")
     public @ResponseBody
-    String saveFlight(HttpServletRequest req) throws Exception {
+    String saveFlight(HttpServletRequest req) throws NullPointerException, IllegalArgumentException {
         Flight flight = flightJsonToModel.jsonToEntity(req, Flight.class);
-        System.out.println(flight.toString());
-        flightService.save(flight);
-        return "flight saved";
+        try {
+            flightService.save(flight);
+            return "flight saved";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "something went wrong";
+        }
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/update", produces = "text-plain")
+    @RequestMapping(method = RequestMethod.PUT, value = "/update", produces = "text-plain")
     public @ResponseBody
-    String updateFlight(HttpServletRequest req) {
+    String updateFlight(HttpServletRequest req) throws NullPointerException, IllegalArgumentException {
         Flight flight = flightJsonToModel.jsonToEntity(req, Flight.class);
-        flightService.update(flight);
-        return "flight updated";
+        try {
+            flightService.update(flight);
+            return "flight with id: " + flight.getId() + " updated";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "something went wrong";
+        }
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/delete", produces = "text-plain")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/delete", produces = "text-plain")
     public @ResponseBody
-    String deleteFlight(@RequestParam("id") String id) {
-        flightService.delete(Long.parseLong(id));
-        return "flight deleted";
+    String deleteFlight(@RequestParam("id") String id) throws NullPointerException, IllegalArgumentException {
+        try {
+            flightService.delete(Long.parseLong(id));
+            return "flight deleted";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "something went wrong";
+        }
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/filter", produces = "text-plain")
     public @ResponseBody
-    String getFlightsByDate(HttpServletRequest req) throws Exception {
+    String getFlightsByDate(HttpServletRequest req) throws NullPointerException, IllegalArgumentException {
         Filter filter = filterJsonToModel.jsonToEntity(req, Filter.class);
-        return flightService.filterFlights(filter).toString();
+        try {
+            return flightService.filterFlights(filter).toString();
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "something went wrong";
+        }
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/most-popular-to", produces = "text-plain")
+    public @ResponseBody
+    String getMostPopularTo() throws NullPointerException, NumberFormatException {
+        try {
+            return flightService.mostPopularTo().toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "something went wrong, flight not found";
+        }
+    }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/most-popular-from", produces = "text-plain")
+    public @ResponseBody
+    String getMostPopularFrom() throws NullPointerException, NumberFormatException {
+        try {
+            return flightService.mostPopularFrom().toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "something went wrong, flight not found";
+        }
+    }
 }

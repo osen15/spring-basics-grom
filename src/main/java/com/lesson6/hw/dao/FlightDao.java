@@ -20,6 +20,14 @@ public class FlightDao extends GeneralDAO<Flight> {
     private EntityManager entityManager;
     private Flight flight;
 
+    private final String most_Popular_To = "SELECT f.ID, f.CITY_TO, COUNT(p.ID) count  FROM FLIGHT f\n" +
+            "INNER JOIN FLIGHT_AND_PASSENGER fp ON f.ID = fp.FLIGHT_ID\n" +
+            "JOIN PASSENGER p on fp.PASSENGER_ID = p.ID GROUP BY f.ID, f.CITY_TO ORDER BY count DESC ";
+    private final String most_Popular_From = "SELECT f.ID, f.CITY_FROM, COUNT(p.ID) count  FROM FLIGHT f\n" +
+            "INNER JOIN FLIGHT_AND_PASSENGER fp ON f.ID = fp.FLIGHT_ID\n" +
+            "JOIN PASSENGER p on fp.PASSENGER_ID = p.ID GROUP BY f.ID, f.CITY_TO ORDER BY count DESC ";
+
+
     @Autowired
     public FlightDao(Flight flight) {
         this.flight = flight;
@@ -72,5 +80,17 @@ public class FlightDao extends GeneralDAO<Flight> {
         }
         flightCriteria.select(from).where(predicate);
         return (ArrayList<Flight>) entityManager.createQuery(flightCriteria).getResultList();
+    }
+
+    public ArrayList<Flight> mostPopularTo() {
+        return (ArrayList<Flight>) entityManager.createNativeQuery(most_Popular_To, Flight.class)
+                .setMaxResults(10)
+                .getResultList();
+    }
+
+    public ArrayList<Flight> mostPopularFrom() {
+        return (ArrayList<Flight>) entityManager.createNativeQuery(most_Popular_From, Flight.class)
+                .setMaxResults(10)
+                .getResultList();
     }
 }

@@ -55,4 +55,13 @@ public class FlightService extends GeneralService<Flight> {
 
     }
 
+    public ArrayList<Flight> mostPopularTo() {
+        return flightDao.mostPopularTo();
+    }
+
+    public ArrayList<Flight> mostPopularFrom() {
+        return flightDao.mostPopularFrom();
+    }
+
+
 }

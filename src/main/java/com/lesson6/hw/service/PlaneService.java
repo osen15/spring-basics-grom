@@ -20,7 +20,6 @@ public class PlaneService extends GeneralService<Plane> {
         this.planeDao = planeDao;
     }
 
-
     @Override
     public Plane get(Long id) throws Exception {
         Plane plane = planeDao.get(id);
@@ -28,52 +27,38 @@ public class PlaneService extends GeneralService<Plane> {
             throw new Exception("Something went wrong. " +
                     "Plane with id: " + id + " not found");
         }
-
         return plane;
     }
 
     @Override
-    public void save(Plane plane)throws Exception {
-        if (plane == null){
-            throw  new Exception("Something went wrong: plain is null");
+    public void save(Plane plane) throws Exception {
+        if (plane == null) {
+            throw new Exception("Something went wrong: plain is null");
         }
         planeDao.save(plane);
-
     }
 
     @Override
     public Plane update(Plane plane) {
-       return planeDao.update(plane);
+        return planeDao.update(plane);
     }
 
     @Override
     public void delete(Long id) {
         planeDao.delete(id);
-
     }
 
-//    public Plane getPlane(Long id) throws Exception {
-//        Plane plane = planeDao.get(id);
-//        if (plane == null) {
-//            throw new Exception("Something went wrong. " +
-//                    "Plane with id: " + id + " not found");
-//        }
-//
-//        return plane;
-//    }
-
     public ArrayList<Plane> oldPlanes() throws Exception {
-
         ArrayList<Plane> planes = planeDao.oldPlanes();
         if (planes == null || planes.isEmpty()) {
             throw new Exception("Something went wrong: old planes not found");
         }
         return planes;
-
-
     }
 
-
+    public ArrayList<Plane> regularPlanes() {
+        return planeDao.regularPlanes();
+    }
 }
 
 
