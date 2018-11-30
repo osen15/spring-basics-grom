@@ -21,11 +21,8 @@ public class AppConf {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
         em.setPackagesToScan(new String[]{"com"});
-
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
-
-
         return em;
     }
 
@@ -36,27 +33,15 @@ public class AppConf {
         dataSource.setUrl("jdbc:oracle:thin:@localhost:1521:XE");
         dataSource.setUsername("SYSTEM");
         dataSource.setPassword("11111111");
-
         return dataSource;
     }
-//
-//    @Bean
-//    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
-//        return new PersistenceExceptionTranslationPostProcessor();
-//    }
 
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(emf);
-
         return transactionManager;
     }
-
-
-
-
-
 }
 
 

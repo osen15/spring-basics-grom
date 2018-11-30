@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 @Repository
-@Transactional
 public class PlaneDao extends GeneralDAO<Plane> {
 
     @PersistenceContext
